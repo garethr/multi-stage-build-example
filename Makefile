@@ -31,13 +31,18 @@ dev:
 	$(BUILD) dev -t $(IMAGE) .
 	$(RUN) -p $(APP_PORT):5000 $(IMAGE)
 
-prod:
+.prod-build:
 	$(BUILD) prod -t $(IMAGE) .
+
+prod: .prod-build
 	$(RUN) -p $(APP_PORT):5000 $(IMAGE)
 
-validate:
-	$(BUILD) prod -t $(IMAGE) .
+validate: .prod-build
 	$(RUN) -v /var/run/docker.sock:/var/run/docker.sock -v $(CURDIR)/$(TESTS):/tmp/tests.yaml gcr.io/gcp-runtimes/container-structure-test test --image $(IMAGE) --config /tmp/tests.yaml
 
+dive: .prod-build
+	$(RUN) -v //var/run/docker.sock:/var/run/docker.sock wagoodman/dive $(IMAGE)
 
-.PHONY: all verify lint test check shell dev prod validate
+
+
+.PHONY: all verify lint test check shell dev prod .prod-build validate dive
