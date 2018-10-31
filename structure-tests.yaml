@@ -1,0 +1,15 @@
+schemaVersion: "2.0.0"
+fileExistenceTests:
+- name: 'App'
+  path: '/app'
+  shouldExist: true
+
+commandTests:
+  - name: "Flask installed"
+    command: "which"
+    args: ["flask"]
+    expectedOutput: ["/usr/local/bin/flask"]
+
+metadataTest:
+  exposedPorts: ["5000"]
+  workdir: "/app"
