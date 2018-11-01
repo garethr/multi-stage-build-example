@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 flask = "*"
-insecure-package = "*"
 gunicorn = "*"
 pytest-flask = "*"
 
