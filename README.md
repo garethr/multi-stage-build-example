@@ -48,7 +48,7 @@ RUN safety check
 # The `Docs` stage builds documentation from the application source code
 # and serves that on a simple web server
 FROM test-base AS Docs
-RUN pycco -i "*.py"
+RUN pycco -i *.py
 WORKDIR /app/docs
 EXPOSE 8000
 CMD ["python", "-m", "http.server"]
