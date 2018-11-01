@@ -27,7 +27,7 @@ RUN safety check
 
 
 FROM test-base AS Docs
-RUN pycco -i "*.py"
+RUN pycco -i *.py*
 WORKDIR /app/docs
 EXPOSE 8000
 CMD ["python", "-m", "http.server"]

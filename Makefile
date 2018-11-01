@@ -11,7 +11,7 @@ all: verify dev
 verify: lint test validate check
 
 lint:
-	type Dockerfile | docker run --rm -i hadolint/hadolint
+	type Dockerfile | docker run --rm -i hadolint/hadolint hadolint --ignore SC2035 -
 
 test:
 	$(BUILD) test -t $(IMAGE) .
