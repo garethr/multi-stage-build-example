@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--target', 'test', '--cache-from', 'gcr.io/$PROJECT_ID/app:test', '-t', 'gcr.io/$PROJECT_ID/app:test', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--target', 'check', '--cache-from', 'gcr.io/$PROJECT_ID/app:check', '-t', 'gcr.io/$PROJECT_ID/app:check', '.']
+  waitFor: ['-']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--cache-from', 'garethr/app', '-t', 'gcr.io/$PROJECT_ID/app', '.']
+- name: 'gcr.io/gcp-runtimes/container-structure-test'
+  args: ['test', '--image', 'gcr.io/$PROJECT_ID/app', '--config', 'structure-tests.yaml']
+images: ['gcr.io/$PROJECT_ID/app', 'gcr.io/$PROJECT_ID/app:test', 'gcr.io/$PROJECT_ID/app:check']
