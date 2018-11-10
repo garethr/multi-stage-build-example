@@ -1,6 +1,6 @@
 workflow "Quality" {
   on = "push"
-  resolves = ["check", "test", "lint", "security", "validate"]
+  resolves = ["debug", "check", "test", "lint", "security", "validate"]
 }
 
 action "check" {
@@ -31,14 +31,13 @@ action "build" {
 
 action "debug" {
   uses = "actions/docker/cli@master"
-  needs = "build"
-  runs = "sh"
+  runs = "sh -c"
   args = "ls"
 }
 
 action "validate" {
   uses = "actions/docker/cli@master"
-  needs = "debug"
+  needs = "build"
   args = "run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/home/ gcr.io/gcp-runtimes/container-structure-test test --image sample --config /home/structure-tests.yaml"
 }
 
