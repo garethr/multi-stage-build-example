@@ -31,7 +31,7 @@ action "build" {
 
 action "validate" {
   uses = "docker://gcr.io/gcp-runtimes/container-structure-test"
-  needs = build"
+  needs = "build"
   args = "test --image sample --config structure-tests.yaml"
 }
 
