@@ -37,7 +37,7 @@ action "debug" {
 
 action "debug-docker" {
   uses = "actions/docker/cli@master"
-  args = "run -v ${PWD}:/home/ gcr.io/gcp-runtimes/container-structure-test alpine ls /home"
+  args = "run -v ${PWD}:/home/ alpine ls /home"
 }
 
 action "validate" {
