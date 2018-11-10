@@ -1,6 +1,6 @@
 workflow "Quality" {
   on = "push"
-  resolves = ["debug", "check", "test", "lint", "security", "validate"]
+  resolves = ["debug", "debug-docker", "check", "test", "lint", "security", "validate"]
 }
 
 action "check" {
@@ -33,6 +33,11 @@ action "debug" {
   uses = "actions/docker/cli@master"
   runs = "sh -c"
   args = "ls"
+}
+
+action "debug-docker" {
+  uses = "actions/docker/cli@master"
+  args = "run -v ${PWD}:/home/ gcr.io/gcp-runtimes/container-structure-test alpine ls /home"
 }
 
 action "validate" {
