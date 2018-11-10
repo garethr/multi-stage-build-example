@@ -45,6 +45,14 @@ FROM test-base AS Check
 RUN safety check
 
 
+# The `Security` stage checks the application for security vulnerabilities using the 
+# Aqua MicroScanner. This requires providing a build-arg with your MicroScanner token
+FROM app AS Security
+ARG MICROSCANNER
+RUN wget -O /microscanner https://get.aquasec.com/microscanner && chmod +x /microscanner
+RUN /microscanner $MICROSCANNER --full-output
+
+
 # The `Docs` stage builds documentation from the application source code
 # and serves that on a simple web server
 FROM test-base AS Docs
