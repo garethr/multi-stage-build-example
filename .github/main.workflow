@@ -26,6 +26,9 @@ action "lint" {
 
 action "build" {
   uses = "actions/docker/cli@master"
+  env = [
+    DOCKER_BUILDKIT = "1"
+  ]
   args = "build -t sample ."
 }
 
