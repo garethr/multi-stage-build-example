@@ -1,3 +1,5 @@
+
+
 FROM python:3-alpine AS base
 
 WORKDIR /app
@@ -24,6 +26,12 @@ RUN pytest --black
 
 FROM test-base AS Check
 RUN safety check
+
+
+FROM app AS Security
+ARG MICROSCANNER
+RUN wget -O /microscanner https://get.aquasec.com/microscanner && chmod +x /microscanner
+RUN /microscanner $MICROSCANNER --full-output
 
 
 FROM test-base AS Docs

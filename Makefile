@@ -19,6 +19,9 @@ test:
 check:
 	$(BUILD) check -t $(IMAGE) .
 
+security:
+	$(BUILD) security -t $(IMAGE) --build-arg MICROSCANNER=$(MICROSCANNER) .
+
 shell:
 	$(BUILD) shell -t $(IMAGE) .
 	$(RUN) $(IMAGE)
