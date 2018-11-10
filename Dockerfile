@@ -1,5 +1,3 @@
-
-
 FROM python:3-alpine AS base
 
 WORKDIR /app
