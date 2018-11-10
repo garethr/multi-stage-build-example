@@ -32,6 +32,6 @@ action "build" {
 action "validate" {
   uses = "actions/docker/cli@master"
   needs = "build"
-  args = "run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}/structure-tests.yaml:/tmp/tests.yaml gcr.io/gcp-runtimes/container-structure-test test --image sample --config /tmp/tests.yaml"
+  args = "run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/ gcr.io/gcp-runtimes/container-structure-test test --image sample --config /structure-tests.yaml"
 }
 
