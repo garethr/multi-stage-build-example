@@ -86,3 +86,51 @@ CMD ["python", "app.py"]
 FROM release As Prod
 CMD ["gunicorn", "-b", ":5000", "app:app"]
 ```
+
+## Google Cloud Build
+
+The above Dockerfile is also used for running the tests in Google Cloud Build. See the accompanying `cloudbuild.yaml` file for details. The plan is to mechanically generate this file from the `Dockerfile`. 
+
+
+## GitHub Actions
+
+The Dockerfile is also used for running on GitHub with GitHub Actions. If you're thinking this duplicates the Google Cloud Build example you'd be right. This repository is intended as an example and playground. As with the `cloudbuild.yaml` file above it should be possible to mechanically generate this too.
+
+```hcl
+workflow "Quality" {
+   on = "push"
+   resolves = ["check", "test", "lint", "security", "validate"]
+ }
+
+ action "check" {
+   uses = "actions/docker/cli@master"
+   args = "build --target check ."
+ }
+
+ action "test" {
+   uses = "actions/docker/cli@master"
+   args = "build --target test ."
+ }
+
+ action "security" {
+   uses = "actions/docker/cli@master"
+   secrets = ["MICROSCANNER"]
+   args = "build --target security --build-arg MICROSCANNER=${MICROSCANNER} ."
+ }
+
+ action "lint" {
+   uses = "actions/docker/cli@master"
+   args = "run -i hadolint/hadolint hadolint --ignore SC2035 - < Dockerfile"
+ }
+
+ action "build" {
+   uses = "actions/docker/cli@master"
+   args = "build -t sample ."
+ }
+
+ action "validate" {
+   uses = "docker://gcr.io/gcp-runtimes/container-structure-test"
+   needs = "build"
+   args = "test --image sample --config structure-tests.yaml"
+ }
+```
