@@ -134,3 +134,8 @@ workflow "Quality" {
    args = "test --image sample --config structure-tests.yaml"
  }
 ```
+
+
+## Knative Build
+
+[Knative Build](https://github.com/knative/build) is a CRD for Kubernetes which supports building in a cluster. I've also included a sample `buildtemplate.yaml` which demonstrates using Knative Build to run the above checks as well. This template uses a local Docker socket for demonstration purposes but could be converted to a different builder if needed.
